@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 class LinksLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
+    var material = Material(
       child: Column(
         children: [
           SizedBox(height: 8),
@@ -38,14 +38,19 @@ class LinksLandingPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12),
-          ButtonLink(title: "Youtube"),
-          ButtonLink(title: "LinkedIn"),
-          ButtonLink(title: "PodCast"),
+          for (var document in documents) ButtonLink(title: document['title']),
         ],
       ),
     );
+    return material;
   }
 }
+
+final documents = [
+  {'title': 'Youtube'},
+  {'title': 'LinkedIn'},
+  {'title': 'Podcast'},
+];
 
 class ButtonLink extends StatelessWidget {
   const ButtonLink({
