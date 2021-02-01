@@ -20,6 +20,8 @@ class MyApp extends StatelessWidget {
 class LinksLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Material(
       child: Column(
         children: [
@@ -37,6 +39,19 @@ class LinksLandingPage extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
+          SizedBox(height: 12),
+          SizedBox(
+            width: width > 680 ? 680 : width * 0.95,
+            child: FlatButton(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              onPressed: () {},
+              child: Text(
+                'Youtube',
+                style: TextStyle(fontSize: 16),
+              ),
+              color: Colors.tealAccent,
+            ),
+          )
         ],
       ),
     );
