@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
 class LinksLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return Material(
       child: Column(
         children: [
@@ -40,19 +38,40 @@ class LinksLandingPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12),
-          SizedBox(
-            width: width > 680 ? 680 : width * 0.95,
-            child: FlatButton(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              onPressed: () {},
-              child: Text(
-                'Youtube',
-                style: TextStyle(fontSize: 16),
-              ),
-              color: Colors.tealAccent,
-            ),
-          )
+          ButtonLink(title: "Youtube"),
+          ButtonLink(title: "LinkedIn"),
+          ButtonLink(title: "PodCast"),
         ],
+      ),
+    );
+  }
+}
+
+class ButtonLink extends StatelessWidget {
+  const ButtonLink({
+    Key key,
+    @required this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: SizedBox(
+        width: width > 680 ? 680 : width * 0.95,
+        child: FlatButton(
+          padding: EdgeInsets.symmetric(vertical: 25),
+          onPressed: () {},
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 16),
+          ),
+          color: Colors.tealAccent,
+        ),
       ),
     );
   }
