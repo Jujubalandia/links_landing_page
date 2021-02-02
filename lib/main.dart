@@ -42,7 +42,28 @@ class LinksLandingPage extends StatelessWidget {
           ),
           SizedBox(height: 12),
           for (var document in documents)
-            ButtonLink(title: document['title'], url: document['url']),
+            ButtonLink(
+              title: document['title'],
+              url: document['url'],
+            ),
+          Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Made with Love',
+                style: TextStyle(fontSize: 19),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Image.network(
+                'https://icons.iconarchive.com/icons/icons-land/vista-love/256/Sex-Male-Female-icon.png',
+                width: 20,
+              )
+            ],
+          ),
+          SizedBox(height: 23),
         ],
       ),
     );
