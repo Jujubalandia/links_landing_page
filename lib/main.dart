@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'links_landing_page.dart';
+import 'package:links_landing_page/links_landing_page.dart';
+import 'package:links_landing_page/settings_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LinksLandingPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LinksLandingPage(),
+        '/settings': (context) => SettingsPage(),
+      },
     );
   }
 }
