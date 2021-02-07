@@ -1,4 +1,4 @@
-import 'link_data.dart';
+import 'models/link_data.dart';
 
 final documents = [
   LinkData(title: 'Youtube', url: 'https://youtube.com'),
