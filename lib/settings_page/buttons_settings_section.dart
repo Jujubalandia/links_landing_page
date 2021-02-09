@@ -18,7 +18,22 @@ class ButtonSettingsSection extends StatelessWidget {
                 SizedBox(height: 40),
                 Text('Your Links',
                     style: Theme.of(context).textTheme.headline1),
-                SizedBox(height: 180),
+                SizedBox(height: 100),
+                SizedBox(
+                  width: constraints.maxWidth * 0.6,
+                  child: FlatButton(
+                    padding: EdgeInsets.symmetric(vertical: 25),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      'Add Button',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blueGrey.shade200,
+                    onPressed: () {},
+                  ),
+                )
               ],
             ),
           );
