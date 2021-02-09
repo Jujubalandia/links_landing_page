@@ -25,9 +25,12 @@ class ButtonLink extends StatelessWidget {
               onPressed: () => launch(url),
               child: Text(
                 title,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
               ),
-              color: Colors.tealAccent,
+              color: Colors.indigoAccent,
             ),
           ),
         );
