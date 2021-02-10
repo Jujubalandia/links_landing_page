@@ -1,4 +1,8 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:links_landing_page/constants.dart';
 
 class ButtonSettingsSection extends StatelessWidget {
   const ButtonSettingsSection({
@@ -32,6 +36,36 @@ class ButtonSettingsSection extends StatelessWidget {
                     ),
                     color: Colors.blueGrey.shade200,
                     onPressed: () {},
+                  ),
+                ),
+                SizedBox(height: 30),
+                SizedBox(
+                  width: constraints.maxWidth * 0.6,
+                  height: constraints.maxHeight * 0.5,
+                  child: ReorderableListView(
+                    children: [
+                      for (var document in documents)
+                        ListTile(
+                          contentPadding: EdgeInsets.symmetric(vertical: 8),
+                          title: Text(document.title),
+                          key: Key(document.title),
+                          leading: Icon(Icons.drag_indicator),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                        )
+                    ],
+                    onReorder: (oldIndex, newIndex) {},
                   ),
                 )
               ],
