@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:links_landing_page/models/link_data.dart';
 
 import 'button_link.dart';
 import '../constants.dart';
@@ -16,6 +17,10 @@ class LinksLandingPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          final _documents = snapshot.data.docs.map((doc) {
+            return LinkData.fromMap(doc.data());
+          }).toList();
+
           return Material(
             child: Column(
               children: [
@@ -34,7 +39,7 @@ class LinksLandingPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12),
-                for (var document in documents)
+                for (var document in _documents)
                   ButtonLink(
                     title: document.title,
                     url: document.url,
