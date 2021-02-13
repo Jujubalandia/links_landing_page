@@ -2,7 +2,8 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:links_landing_page/constants.dart';
+import 'package:links_landing_page/models/link_data.dart';
+import 'package:provider/provider.dart';
 
 class ButtonSettingsSection extends StatelessWidget {
   const ButtonSettingsSection({
@@ -11,6 +12,12 @@ class ButtonSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _documents = Provider.of<List<LinkData>>(context);
+    if (_documents == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return Expanded(
       flex: 3,
       child: LayoutBuilder(
@@ -44,7 +51,7 @@ class ButtonSettingsSection extends StatelessWidget {
                   height: constraints.maxHeight * 0.5,
                   child: ReorderableListView(
                     children: [
-                      for (var document in documents)
+                      for (var document in _documents)
                         ListTile(
                           contentPadding: EdgeInsets.symmetric(vertical: 8),
                           title: Text(document.title),
