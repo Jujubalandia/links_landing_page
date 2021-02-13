@@ -19,38 +19,33 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('links').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          final _documents = snapshot.data.docs.map((doc) {
-            return LinkData.fromMap(doc.data());
-          }).toList();
-          return ProxyProvider0<List<LinkData>>(
-            update: (context, linkDataList) => _documents,
-            child: MaterialApp(
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              initialRoute: '/',
-              routes: {
-                '/': (context) => LinksLandingPage(),
-                '/settings': (context) => SettingsPage(),
-              },
-              onUnknownRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return NotFoundPage();
-                  },
-                );
-              },
-            ),
+    final linksCollection = FirebaseFirestore.instance.collection('links');
+    final userLinkDataStream = linksCollection.snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return LinkData.fromMap(doc.data());
+      }).toList();
+    });
+
+    return StreamProvider<List<LinkData>>(
+      create: (context) => userLinkDataStream,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => LinksLandingPage(),
+          '/settings': (context) => SettingsPage(),
+        },
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) {
+              return NotFoundPage();
+            },
           );
-        });
+        },
+      ),
+    );
   }
 }
