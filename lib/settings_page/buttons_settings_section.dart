@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:links_landing_page/models/link_data.dart';
 import 'package:provider/provider.dart';
 
+import 'app_button.dart';
+
 class ButtonSettingsSection extends StatelessWidget {
   const ButtonSettingsSection({
     Key key,
@@ -17,6 +19,7 @@ class ButtonSettingsSection extends StatelessWidget {
       flex: 3,
       child: LayoutBuilder(
         builder: (context, constraints) {
+          final width = constraints.maxWidth * 0.6;
           if (_documents == null) {
             return Center(
               child: CircularProgressIndicator(),
@@ -30,21 +33,7 @@ class ButtonSettingsSection extends StatelessWidget {
                 Text('Your Links',
                     style: Theme.of(context).textTheme.headline1),
                 SizedBox(height: 100),
-                SizedBox(
-                  width: constraints.maxWidth * 0.6,
-                  child: FlatButton(
-                    padding: EdgeInsets.symmetric(vertical: 25),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Text(
-                      'Add Button',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    color: Colors.blueGrey.shade200,
-                    onPressed: () {},
-                  ),
-                ),
+                AddButton(width: width),
                 SizedBox(height: 30),
                 SizedBox(
                   width: constraints.maxWidth * 0.6,
