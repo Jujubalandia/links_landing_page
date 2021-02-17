@@ -10,6 +10,8 @@ class AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _titleTextController = TextEditingController();
+    TextEditingController _urlTextController = TextEditingController();
     return SizedBox(
       width: width,
       child: FlatButton(
@@ -33,12 +35,14 @@ class AddButton extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextFormField(
+                          controller: _titleTextController,
                           decoration: InputDecoration(
                             labelText: 'Title',
                             hintText: 'ex: Facebook',
                           ),
                         ),
                         TextFormField(
+                          controller: _urlTextController,
                           decoration: InputDecoration(
                             labelText: 'Link',
                             hintText: 'ex: facebook.com/you-user-name',
@@ -49,11 +53,14 @@ class AddButton extends StatelessWidget {
                   ),
                   actions: [
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print(_titleTextController.text);
+                        print(_urlTextController.text);
+                      },
                       child: Text('Add'),
                     ),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).pop(),
                       child: Text('Cancel'),
                     ),
                   ],
