@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:links_landing_page/models/link_data.dart';
 import 'package:provider/provider.dart';
 
 class AddButton extends StatelessWidget {
@@ -66,10 +67,12 @@ class AddButton extends StatelessWidget {
                     FlatButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          _linksCollection.add({
-                            'title': _titleTextController.text,
-                            'url': _urlTextController.text,
-                          });
+                          _linksCollection.add(
+                            LinkData(
+                              title: _titleTextController.text,
+                              url: _urlTextController.text,
+                            ).toMap(),
+                          );
                           Navigator.of(context).pop();
                           _formKey.currentState.reset();
                         }
