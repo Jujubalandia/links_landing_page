@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({
@@ -11,6 +12,7 @@ class AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _linksCollection = Provider.of<CollectionReference>(context);
     TextEditingController _titleTextController = TextEditingController();
     TextEditingController _urlTextController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
@@ -64,7 +66,7 @@ class AddButton extends StatelessWidget {
                     FlatButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          FirebaseFirestore.instance.collection('links').add({
+                          _linksCollection.add({
                             'title': _titleTextController.text,
                             'url': _urlTextController.text,
                           });
