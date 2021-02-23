@@ -12,6 +12,7 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController _titleTextController = TextEditingController();
     TextEditingController _urlTextController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
     return SizedBox(
       width: width,
       child: FlatButton(
@@ -31,10 +32,14 @@ class AddButton extends StatelessWidget {
                 return AlertDialog(
                   title: Text('Add New Button'),
                   content: Form(
+                    key: _formKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextFormField(
+                          validator: (value) {
+                            return value.isEmpty ? 'Please add a title' : null;
+                          },
                           controller: _titleTextController,
                           decoration: InputDecoration(
                             labelText: 'Title',
@@ -42,6 +47,9 @@ class AddButton extends StatelessWidget {
                           ),
                         ),
                         TextFormField(
+                          validator: (value) {
+                            return value.isEmpty ? 'Please add a url' : null;
+                          },
                           controller: _urlTextController,
                           decoration: InputDecoration(
                             labelText: 'Link',
@@ -54,6 +62,10 @@ class AddButton extends StatelessWidget {
                   actions: [
                     FlatButton(
                       onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          Navigator.of(context).pop();
+                          _formKey.currentState.reset();
+                        }
                         print(_titleTextController.text);
                         print(_urlTextController.text);
                       },
