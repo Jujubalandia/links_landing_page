@@ -51,7 +51,28 @@ class ButtonSettingsSection extends StatelessWidget {
                             children: [
                               IconButton(
                                 icon: Icon(Icons.delete),
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'Are you sure remove the ${document.title} button?',
+                                        ),
+                                        content: Text(
+                                          'The deleted link are not retrievable',
+                                        ),
+                                        actions: [
+                                          FlatButton(
+                                            child: Text('Delete'),
+                                            color: Colors.redAccent,
+                                            onPressed: () {},
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                               IconButton(
                                 icon: Icon(Icons.edit),
