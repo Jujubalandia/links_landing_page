@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:links_landing_page/models/link_data.dart';
 import 'package:provider/provider.dart';
 
-import 'app_button.dart';
+import 'add_button.dart';
+import 'delete_button.dart';
+import 'edit_button.dart';
 
 class ButtonSettingsSection extends StatelessWidget {
   const ButtonSettingsSection({
@@ -49,35 +51,8 @@ class ButtonSettingsSection extends StatelessWidget {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                          'Are you sure remove the ${document.title} button?',
-                                        ),
-                                        content: Text(
-                                          'The deleted link are not retrievable',
-                                        ),
-                                        actions: [
-                                          FlatButton(
-                                            child: Text('Delete'),
-                                            color: Colors.redAccent,
-                                            onPressed: () {},
-                                          )
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {},
-                              )
+                              DeleteButton(document: document),
+                              EditButton(document: document),
                             ],
                           ),
                         )
