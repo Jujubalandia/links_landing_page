@@ -14,12 +14,6 @@ class EditButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _linksCollection = Provider.of<CollectionReference>(context);
-    TextEditingController _titleTextController = TextEditingController(
-      text: document.title,
-    );
-    TextEditingController _urlTextController = TextEditingController(
-      text: document.url,
-    );
     final _formKey = GlobalKey<FormState>();
 
     return IconButton(
@@ -28,6 +22,12 @@ class EditButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) {
+            TextEditingController _titleTextController = TextEditingController(
+              text: document.title,
+            );
+            TextEditingController _urlTextController = TextEditingController(
+              text: document.url,
+            );
             return AlertDialog(
               title: Text('Edit ${document.title} Button'),
               content: Form(
@@ -61,19 +61,26 @@ class EditButton extends StatelessWidget {
               actions: [
                 FlatButton(
                   onPressed: () {
+                    final userChangedTitle =
+                        document.title != _titleTextController.text;
+                    final userChangedUrl =
+                        document.url != _urlTextController.text;
+
+                    final userUpdateForm = userChangedTitle || userChangedUrl;
+
                     if (_formKey.currentState.validate()) {
-                      final newLinkData = LinkData(
-                        title: _titleTextController.text,
-                        url: _urlTextController.text,
-                      );
-                      _linksCollection.doc(document.id).update(
-                            newLinkData.toMap(),
-                          );
+                      if (userUpdateForm) {
+                        final newLinkData = LinkData(
+                          title: _titleTextController.text,
+                          url: _urlTextController.text,
+                        );
+                        _linksCollection
+                            .doc(document.id)
+                            .update(newLinkData.toMap());
+                      }
                       Navigator.of(context).pop();
                       _formKey.currentState.reset();
                     }
-                    print(_titleTextController.text);
-                    print(_urlTextController.text);
                   },
                   child: Text('Edit'),
                 ),
