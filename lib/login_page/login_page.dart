@@ -31,7 +31,13 @@ class LoginPage extends StatelessWidget {
                     ),
                     TextFormField(
                       validator: (value) {
-                        return value.isEmpty ? 'Valid email needed' : null;
+                        if (value.isEmpty) {
+                          return 'Add a email to continue';
+                        } else if (!isValidEmail(value)) {
+                          return 'Valid email needed';
+                        } else {
+                          return null;
+                        }
                       },
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -44,7 +50,13 @@ class LoginPage extends StatelessWidget {
                     TextFormField(
                       obscureText: true,
                       validator: (value) {
-                        return value.isEmpty ? 'A password is needed' : null;
+                        if (value.isEmpty) {
+                          return 'Add a password to continue';
+                        } else if (value.length < 6) {
+                          return 'Password must be have more than 6';
+                        } else {
+                          return null;
+                        }
                       },
                       controller: _passwordController,
                       decoration: InputDecoration(
@@ -58,7 +70,9 @@ class LoginPage extends StatelessWidget {
                       height: 40,
                       width: double.infinity,
                       child: FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _formKey.currentState.validate();
+                        },
                         child: Text(
                           'Login',
                           style: TextStyle(color: Colors.white),
@@ -75,4 +89,10 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isValidEmail(String email) {
+  return RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
 }
