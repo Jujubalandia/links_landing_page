@@ -76,10 +76,13 @@ class LoginPage extends StatelessWidget {
                             final _email = _emailController.text;
                             final _password = _passwordController.text;
 
-                            FirebaseAuth.instance.signInWithEmailAndPassword(
-                              email: _email,
-                              password: _password,
-                            );
+                            FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                  email: _email,
+                                  password: _password,
+                                )
+                                .then((_) => Navigator.of(context)
+                                    .pushNamed('/settings'));
                           }
                         },
                         child: Text(
