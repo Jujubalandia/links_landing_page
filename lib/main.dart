@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:links_landing_page/Links_landing_page/links_landing_page.dart';
 import 'package:links_landing_page/login_page/login_page.dart';
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        StreamProvider<User>(
+            create: (context) => FirebaseAuth.instance.authStateChanges()),
         Provider<CollectionReference>(
           create: (context) => linksCollection,
         ),
@@ -35,11 +38,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => LinksLandingPage(),
-          '/settings': (context) => SettingsPage(),
-          '/login': (context) => LoginPage(),
+        initialRoute: '/settings',
+        onGenerateRoute: (settings) {
+          print(settings.name);
+          return MaterialPageRoute(builder: (context) {
+            return RouteController(settingsName: settings.name);
+          });
         },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(
@@ -50,5 +54,30 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class RouteController extends StatelessWidget {
+  final String settingsName;
+  const RouteController({
+    Key key,
+    @required this.settingsName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final userSignedIn = Provider.of<User>(context) != null;
+    final notSignedInGoSettings = !userSignedIn && settingsName == '/settings';
+    final signedInGoSettings = userSignedIn && settingsName == '/settings';
+
+    if (settingsName == '/') {
+      return LinksLandingPage();
+    } else if (notSignedInGoSettings || settingsName == '/login') {
+      return LoginPage();
+    } else if (signedInGoSettings) {
+      return SettingsPage();
+    } else {
+      return NotFoundPage();
+    }
   }
 }
