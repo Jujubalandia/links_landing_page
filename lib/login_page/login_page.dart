@@ -82,7 +82,12 @@ class LoginPage extends StatelessWidget {
                                   password: _password,
                                 )
                                 .then((_) => Navigator.of(context)
-                                    .pushNamed('/settings'));
+                                    .pushNamed('/settings'))
+                                .catchError(
+                              (error) {
+                                ShowErrorDialog(context, error);
+                              },
+                            );
                           }
                         },
                         child: Text(
@@ -99,6 +104,26 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future ShowErrorDialog(BuildContext context, error) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Oh Snap!'),
+          content: Text(error.message),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Dismiss'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
