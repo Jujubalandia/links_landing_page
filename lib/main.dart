@@ -34,13 +34,13 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'App Card',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/settings',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
-          print(settings.name);
           return MaterialPageRoute(builder: (context) {
             return RouteController(settingsName: settings.name);
           });
