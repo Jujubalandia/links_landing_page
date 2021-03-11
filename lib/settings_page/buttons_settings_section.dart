@@ -31,10 +31,10 @@ class ButtonSettingsSection extends StatelessWidget {
             color: Colors.blueGrey.shade50,
             child: Column(
               children: [
-                SizedBox(height: 40),
+                SizedBox(height: 30),
                 Text('Your Links',
                     style: Theme.of(context).textTheme.headline1),
-                SizedBox(height: 100),
+                SizedBox(height: 85),
                 AddButton(width: width),
                 SizedBox(height: 30),
                 SizedBox(
@@ -57,7 +57,7 @@ class ButtonSettingsSection extends StatelessWidget {
                           ),
                         )
                     ],
-                    onReorder: (oldIndex, newIndex) {},
+                    onReorder: onReorder,
                   ),
                 )
               ],
@@ -67,4 +67,23 @@ class ButtonSettingsSection extends StatelessWidget {
       ),
     );
   }
+
+  
+}
+
+class LinkNotifier extend ChangeNotifier {
+
+  List<LinkData> _workingList;
+
+  update(List<LinkData> userLinks) => _workingList = userLinks;
+
+  List<LinkData> get currentLinkList => _workingList;
+
+  void onReorder(oldIndex, newIndex) {
+    if (oldIndex < newIndex) newIndex -= 1;
+    final pickedLink = _workingList.removeAt(oldIndex);
+    _workingList.insert(newIndex, pickedLink);
+  }
+
+  
 }
