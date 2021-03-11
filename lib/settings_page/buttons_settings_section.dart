@@ -17,62 +17,66 @@ class ButtonSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _documents = Provider.of<List<LinkData>>(context);
-    return Expanded(
-      flex: 3,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.maxWidth * 0.6;
-          if (_documents == null) {
-            return Center(
-              child: CircularProgressIndicator(),
+    return ChangeNotifierProxyProvider0<LinkNotifier>(
+      create: (context) => LinkNotifier(),
+      update: (_, linkNotifier) {
+        return linkNotifier..update(_documents);
+      },
+      child: Expanded(
+        flex: 3,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final _linkNotifier = Provider.of<LinkNotifier>(context);
+            final width = constraints.maxWidth * 0.6;
+            if (_documents == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Container(
+              color: Colors.blueGrey.shade50,
+              child: Column(
+                children: [
+                  SizedBox(height: 30),
+                  Text('Your Links',
+                      style: Theme.of(context).textTheme.headline1),
+                  SizedBox(height: 85),
+                  AddButton(width: width),
+                  SizedBox(height: 30),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.6,
+                    height: constraints.maxHeight * 0.5,
+                    child: ReorderableListView(
+                      children: [
+                        for (var document in _linkNotifier.currentLinkList)
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(vertical: 8),
+                            title: Text(document.title),
+                            key: Key(document.title),
+                            leading: Icon(Icons.drag_indicator),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                DeleteButton(document: document),
+                                EditButton(document: document),
+                              ],
+                            ),
+                          )
+                      ],
+                      onReorder: _linkNotifier.onReorder,
+                    ),
+                  )
+                ],
+              ),
             );
-          }
-          return Container(
-            color: Colors.blueGrey.shade50,
-            child: Column(
-              children: [
-                SizedBox(height: 30),
-                Text('Your Links',
-                    style: Theme.of(context).textTheme.headline1),
-                SizedBox(height: 85),
-                AddButton(width: width),
-                SizedBox(height: 30),
-                SizedBox(
-                  width: constraints.maxWidth * 0.6,
-                  height: constraints.maxHeight * 0.5,
-                  child: ReorderableListView(
-                    children: [
-                      for (var document in _documents)
-                        ListTile(
-                          contentPadding: EdgeInsets.symmetric(vertical: 8),
-                          title: Text(document.title),
-                          key: Key(document.title),
-                          leading: Icon(Icons.drag_indicator),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              DeleteButton(document: document),
-                              EditButton(document: document),
-                            ],
-                          ),
-                        )
-                    ],
-                    onReorder: onReorder,
-                  ),
-                )
-              ],
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }
-
-  
 }
 
-class LinkNotifier extend ChangeNotifier {
-
+class LinkNotifier extends ChangeNotifier {
   List<LinkData> _workingList;
 
   update(List<LinkData> userLinks) => _workingList = userLinks;
@@ -84,6 +88,4 @@ class LinkNotifier extend ChangeNotifier {
     final pickedLink = _workingList.removeAt(oldIndex);
     _workingList.insert(newIndex, pickedLink);
   }
-
-  
 }
