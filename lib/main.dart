@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'App Card',
+        title: 'Bera Card',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
